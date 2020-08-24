@@ -1,31 +1,40 @@
-import React, { Component } from "react";
-// import ReactDOM from "react-dom";
+import React from "react";
+
 class TodoList extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { value: "" };
-    this.addItem = this.addItem.bind(this);
-    this.deleteItem = this.deleteItem.bind(this);
-    this.inputVal = this.inputVal.bind(this);
+    this.state = {
+      newItem: "",
+      list: [],
+    };
   }
-  inputVal(e) {
-    this.setState({ value: e.target.value });
+
+  // update state
+  updateInput(key, value) {
+    this.setState({
+      [key]: value,
+    });
   }
-  addItem(e) {
-    e.preventDefault();
-    const todoList = document.querySelector(".todo-list");
-    const items = todoList.children;
-    const addNewItem = document.createElement("li");
-    addNewItem.classList.add("td-item");
-    addNewItem.innerText = this.state.value;
-    todoList.appendChild(addNewItem);
-    let resetInput = document.querySelector(".add-td");
-    resetInput.value = "";
-    this.deleteItem();
+
+  // add Item function
+  addItem() {
+    const newItem = {
+      id: 1 + Math.random(),
+      value: this.state.newItem.slice(),
+    };
+    const list = [...this.state.list];
+    list.push(newItem);
+    this.setState({
+      list,
+      newItem: "",
+    });
   }
-  deleteItem() {
-    const deleteItem = document.querySelector(".td-item");
-    deleteItem.addEventListener("click", (e) => e.target.remove());
+
+  // Delete Item
+  deleteItem(id) {
+    const list = [...this.state.list];
+    const updatedList = list.filter((item) => item.id !== id);
+    this.setState({ list: updatedList });
   }
 
   render() {
@@ -33,21 +42,32 @@ class TodoList extends React.Component {
       <div className="TodoList">
         <header className="App-header">
           <h1>Todo App</h1>
-          <form>
-            <input
-              type="text"
-              className="add-td"
-              name="add-td"
-              placeholder="Enter Value"
-              onChange={this.inputVal}
-              value={this.state.value}
-            />
-            <button id="submit-td" onClick={this.addItem}>
-              Add Todo
-            </button>
-          </form>
+
+          <input
+            type="text"
+            className="add-td"
+            name="add-td"
+            placeholder="Enter Value"
+            onChange={(e) => this.updateInput("newItem", e.target.value)}
+            value={this.state.newItem}
+          />
+          <button id="submit-td" onClick={() => this.addItem()}>
+            Add Task
+          </button>
+
           <h2>Todo List:</h2>
-          <ul className="todo-list"></ul>
+          <ul className="todo-list">
+            {this.state.list.map((item) => {
+              return (
+                <li key={item.id}>
+                  {item.value}
+                  <button onClick={() => this.deleteItem(item.id)}>
+                    remove
+                  </button>
+                </li>
+              );
+            })}
+          </ul>
         </header>
       </div>
     );
