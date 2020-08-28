@@ -37,6 +37,12 @@ class TodoList extends React.Component {
     this.setState({ list: updatedList });
   }
 
+  // Edit Item
+  editItem(id) {
+    const list = [...this.state.list];
+    const editTodo = list.filter((item) => item.id === id);
+    console.log(editTodo);
+  }
   render() {
     return (
       <div className="TodoList">
@@ -61,8 +67,9 @@ class TodoList extends React.Component {
               return (
                 <li key={item.id}>
                   {item.value}
+                  <button onClick={() => this.editItem(item.id)}>Edit</button>
                   <button onClick={() => this.deleteItem(item.id)}>
-                    remove
+                    Delete
                   </button>
                 </li>
               );

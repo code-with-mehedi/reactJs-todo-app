@@ -1,15 +1,11 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import "./index.css";
-import TodoList from "./Todo";
+// import TodoList from "./Todo";
+import Todolist from "./pages/Todolist";
 import * as serviceWorker from "./serviceWorker";
 
-ReactDOM.render(
-  <React.StrictMode>
-    <TodoList />
-  </React.StrictMode>,
-  document.getElementById("root")
-);
+ReactDOM.render(<Todolist />, document.getElementById("root"));
 
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.
